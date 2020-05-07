@@ -1,0 +1,64 @@
+{
+	"sap.app": {
+		"id" : "profileCard"
+	},
+	"sap.card": {
+		"type": "Object",
+		"configuration": {
+			"parameters": {
+				"userId": {
+					"value": "82092"
+				},
+				"companyId": {
+					"value": "SFPART041857"
+				},
+				"successfactors": {
+					"value": "https://salesdemo4.successfactors.com"
+				}
+			}
+		},
+		"data": {
+			"request": {
+				"url": "/odata/v2/User?$filter=userId eq {{parameters.userId}}",
+				"parameters": {
+					"$format": "json"
+				}
+			}
+		},		
+		"header": {
+			"data": {
+				"path": "/d/results/0"
+			},
+			"icon": {
+				"src": "{{parameters.successfactors}}/eduPhoto/view?companyId={{parameters.companyId}}&photo_action=show&photo_type=liveProfile&user_id={{parameters.userId}}"
+			},
+			"title": "My Profile"
+		},
+		"content": {
+			"data": {
+				"path": "/d/results/0"
+			},
+			"groups": [
+					{
+						"title": "{defaultFullName} ({{parameters.userId}})",
+						"items": [
+							{
+								"label": "",
+								"value": "{title}",
+								"type": "country"
+							}
+						]
+					},
+					{
+						"items": [
+							{
+								"value": "View Profile",
+								"url": "{{parameters.successfactors}}/sf/liveprofile?selecteduser={{parameters.userId}}",
+								"type": "link"
+							}
+						]
+					}
+				]			
+		}
+	}
+}

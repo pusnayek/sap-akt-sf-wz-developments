@@ -1,0 +1,77 @@
+{
+	"sap.app": {
+		"id" : "profileCard",
+		"i18n": "i18n/i18n.properties"
+	},
+	"sap.card": {
+		"type": "List",
+		"configuration": {
+			"parameters": {
+				"userId": {
+					"value": "82092"
+				},
+				"companyId": {
+					"value": "SFPART041857"
+				},
+				"visibleItems": {
+					"value": "5"
+				},
+				"successfactors": {
+					"value": "https://salesdemo4.successfactors.com"
+				}
+			}
+		},
+		"data": {
+			"request": {
+				"url": "/odata/v2/User?$filter=manager/userId%20eq%20%27{{parameters.userId}}%27&$expand=manager&$select=defaultFullName,title,firstName,userId,manager/userId&$top={{parameters.visibleItems}}&$orderby=firstName,userId",
+				"parameters": {
+					"$format": "json"
+				}
+			}
+		},		
+		"header": {
+			"data": {
+				"request": {
+					"url": "/odata/v2/User/$count?$filter=manager/userId%20eq%20%27{{parameters.userId}}%27&$expand=manager",
+					"parameters": {
+						"$format": "json"
+					}
+				}
+			},
+			"icon": {
+				"src": "sap-icon://org-chart"
+			},
+			"title": "Org Chart",
+			"status": { 
+				"text": {
+					"format" : {
+						"translationKey": "i18n>CARD.COUNT_X_OF_Y",
+						"parts": [
+							"parameters>/visibleItems",
+							"/"
+						]
+					}			
+				}  
+			},
+			"actions": [
+				{
+					"type": "Navigation",
+					"parameters": {
+						"url": "{{parameters.successfactors}}/sf/orgchart"
+					}
+				}
+			]
+		},
+		"content": {
+			"data": {
+				"path": "/d/results"
+			},
+			"maxItems": "{parameters.visibleItems}",
+			"item": {
+				"title": {
+					"value": "{defaultFullName}, {title}"
+				}
+			}
+		}		
+	}
+}

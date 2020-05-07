@@ -1,0 +1,86 @@
+{
+	"sap.app": {
+		"id" : "leaveParental"
+	},
+	"sap.card": {
+		"type": "Object",
+		"configuration": {
+			"parameters": {
+				"userId": {
+					"value": "82092"
+				},
+				"today": {
+					"value": "{= Date.now() }"
+				},
+				"timeAccountType": {
+					"value": "TAT_VAC_REC"
+				},
+				"absenceType": {
+					"value": "TT_VAC_REC"
+				},
+				"companyId": {
+					"value": "SFPART041857"
+				},
+				"successfactors": {
+					"value": "https://salesdemo4.successfactors.com"
+				}
+			}
+		},
+		"data": {
+			"request": {
+				"url": "/odata/v2/EmpTimeAccountBalance?$filter=userId%20eq%20%27{{parameters.userId}}%27%20and%20timeAccountType%20eq%20%27{{parameters.timeAccountType}}%27",
+				"parameters": {
+					"$format": "json"
+				}
+			}
+		},		
+		"header": {
+			"data": {
+				"path": "/d/results/0"
+			},
+			"icon": {
+				"src": "sap-icon://calendar"
+			},
+			"title": "Time Off",
+			"subTitle": "Current Balance: {balance} {timeUnit}",
+			"actions": [
+				{
+					"type": "Navigation",
+					"parameters": {
+						"url": "{{parameters.successfactors}}/xi/ui/ect/pages/absence/timeOff.xhtml"
+					}
+				}
+			]
+		},
+		"content": {
+			"data": {
+				"request": {
+					"url": "/odata/v2/EmployeeTime?$filter=userId%20eq%20%27{{parameters.userId}}%27%20and%20approvalStatus%20eq%20%27APPROVED%27%20and%20endDate%20gt%20%27{{parameters.today}}%27",
+					"parameters": {
+						"$format": "json"
+					}
+				},
+				"path": "/d/results/0"
+			},
+			"groups": [
+					{
+						"title": "Upcoming Time Off",
+						"items": [
+							{
+								"value": "{= format.dateTime(${startDate}, {pattern: 'MMMM d, y'}) } - {= format.dateTime(${endDate}, {pattern: 'MMMM d, y'}) }"
+							}
+						]
+					},
+					{
+						"items": [
+							{
+								"value": "Request Leave",
+								"url": "{{parameters.successfactors}}/xi/ui/ect/pages/absence/timeOff.xhtml",
+								"type": "link"
+							}
+						]
+					}
+				]			
+		}
+	}
+}
