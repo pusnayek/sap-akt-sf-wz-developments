@@ -1,43 +1,59 @@
 {
+	"_version": "1.15.0",
 	"sap.app": {
-		"id" : "profileCard"
+		"id" : "swz.sfsf.profileCard",
+		"type": "card",
+		"title": "Profile",
+		"subTtitle": "User profile",
+		"applicationVersion": {
+			"version": "14.0.0"
+		},
+		"shortTitle": "User Profile",
+		"description": "User Profile from Success Factors",
+		"tags": {
+			"keywords": [
+				"profile",
+				"sfsf"
+			]
+		}
 	},
 	"sap.card": {
-		"type": "Object",
 		"configuration": {
+			"destinations": {
+                "myDestination": {
+                    "name": "aktapisfsfdemo"
+                },
+                "sfDestination": {
+                    "name": "aktsfsfdemo"
+                }
+			},
 			"parameters": {
 				"userId": {
 					"value": "82092"
 				},
 				"companyId": {
 					"value": "SFPART041857"
-				},
-				"successfactors": {
-					"value": "https://salesdemo4.successfactors.com"
 				}
 			}
-		},
-		"data": {
-			"request": {
-				"url": "/odata/v2/User?$filter=userId eq {{parameters.userId}}",
-				"parameters": {
-					"$format": "json"
-				}
-			}
-		},		
+        },
+        "type": "Object",	
 		"header": {
-			"data": {
-				"path": "/d/results/0"
-			},
 			"icon": {
-				"src": "{{parameters.successfactors}}/eduPhoto/view?companyId={{parameters.companyId}}&photo_action=show&photo_type=liveProfile&user_id={{parameters.userId}}"
+				"src": "https://salesdemo4.successfactors.com/eduPhoto/view?companyId={{parameters.companyId}}&photo_action=show&photo_type=liveProfile&user_id={{parameters.userId}}"
 			},
 			"title": "My Profile"
 		},
 		"content": {
 			"data": {
-				"path": "/d/results/0"
-			},
+                "request": {
+                    "url": "https://apisalesdemo4.successfactors.com/odata/v2/User?$filter=userId%20eq%20%27{{parameters.userId}}%27&$expand=manager",
+                    "parameters": {
+                        "$format": "json"
+                    },
+                    "withCredentials": true
+                },
+                "path": "/d/results/0"
+            },		
 			"groups": [
 					{
 						"title": "{defaultFullName} ({{parameters.userId}})",
@@ -45,7 +61,7 @@
 							{
 								"label": "",
 								"value": "{title}",
-								"type": "country"
+								"type": "text"
 							}
 						]
 					},
@@ -53,7 +69,7 @@
 						"items": [
 							{
 								"value": "View Profile",
-								"url": "{{parameters.successfactors}}/sf/liveprofile?selecteduser={{parameters.userId}}",
+								"url": "https://salesdemo4.successfactors.com/sf/liveprofile?selecteduser={{parameters.userId}}",
 								"type": "link"
 							}
 						]

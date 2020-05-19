@@ -1,11 +1,35 @@
 {
+	"_version": "1.15.0",
 	"sap.app": {
-		"id" : "profileCard",
-		"i18n": "i18n/i18n.properties"
+		"id" : "swz.sfsf.orgchartcard",
+		"type": "card",
+		"title": "Org Chart",
+		"subTtitle": "Company Org Chart",
+		"applicationVersion": {
+			"version": "14.0.0"
+		},
+		"shortTitle": "Org Chart",
+		"description": "Get Orgchart from Success Factors",
+		"tags": {
+			"keywords": [
+				"Org",
+				"sfsf"
+			]
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://list"
+		}
 	},
 	"sap.card": {
-		"type": "List",
 		"configuration": {
+			"destinations": {
+                "myDestination": {
+                    "name": "sfsfdemo"
+                }
+			},
 			"parameters": {
 				"userId": {
 					"value": "82092"
@@ -14,45 +38,19 @@
 					"value": "SFPART041857"
 				},
 				"visibleItems": {
-					"value": "5"
+					"value": 5
 				},
 				"successfactors": {
 					"value": "https://salesdemo4.successfactors.com"
 				}
 			}
-		},
-		"data": {
-			"request": {
-				"url": "/odata/v2/User?$filter=manager/userId%20eq%20%27{{parameters.userId}}%27&$expand=manager&$select=defaultFullName,title,firstName,userId,manager/userId&$top={{parameters.visibleItems}}&$orderby=firstName,userId",
-				"parameters": {
-					"$format": "json"
-				}
-			}
-		},		
+		},	
+		"type": "List",	
 		"header": {
-			"data": {
-				"request": {
-					"url": "/odata/v2/User/$count?$filter=manager/userId%20eq%20%27{{parameters.userId}}%27&$expand=manager",
-					"parameters": {
-						"$format": "json"
-					}
-				}
-			},
 			"icon": {
 				"src": "sap-icon://org-chart"
 			},
 			"title": "Org Chart",
-			"status": { 
-				"text": {
-					"format" : {
-						"translationKey": "i18n>CARD.COUNT_X_OF_Y",
-						"parts": [
-							"parameters>/visibleItems",
-							"/"
-						]
-					}			
-				}  
-			},
 			"actions": [
 				{
 					"type": "Navigation",
@@ -64,14 +62,22 @@
 		},
 		"content": {
 			"data": {
+				"request": {
+					"url": "https://apisalesdemo4.successfactors.com/odata/v2/User?$filter=manager/userId%20eq%20%27{{parameters.userId}}%27&$expand=manager&$select=defaultFullName,title,firstName,userId,manager/userId&$top={{parameters.visibleItems}}&$orderby=firstName,userId",
+					"parameters": {
+						"$format": "json"
+					},
+					"withCredentials": true
+				},
 				"path": "/d/results"
 			},
-			"maxItems": "{parameters.visibleItems}",
+
 			"item": {
 				"title": {
 					"value": "{defaultFullName}, {title}"
 				}
-			}
+			},
+			"maxItems": 5
 		}		
 	}
 }

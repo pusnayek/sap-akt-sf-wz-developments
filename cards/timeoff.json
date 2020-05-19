@@ -1,16 +1,38 @@
 {
+	"_version": "1.15.0",
 	"sap.app": {
-		"id" : "leaveParental"
+		"id" : "swz.sfsf.leaveParental",
+		"type": "card",
+		"title": "Time Off",
+		"subTtitle": "User Time Off",
+		"applicationVersion": {
+			"version": "5.0.0"
+		},
+		"shortTitle": "Time Off",
+		"description": "Time Off from Success Factors",
+		"tags": {
+			"keywords": [
+				"timeoff",
+				"sfsf"
+			]
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://calendar"
+		}
 	},
 	"sap.card": {
-		"type": "Object",
 		"configuration": {
+			"destinations": {
+                "myDestination": {
+                    "name": "sfsfdemo"
+                }
+			},
 			"parameters": {
 				"userId": {
 					"value": "82092"
-				},
-				"today": {
-					"value": "{= Date.now() }"
 				},
 				"timeAccountType": {
 					"value": "TAT_VAC_REC"
@@ -19,35 +41,39 @@
 					"value": "TT_VAC_REC"
 				},
 				"companyId": {
-					"value": "SFPART041857"
-				},
+					"value": "SFPART035023"
+                },
+                "today": {
+                    "value": "{{parameters.TODAY_ISO}}",
+                    "type": "date"
+                },
 				"successfactors": {
 					"value": "https://salesdemo4.successfactors.com"
 				}
 			}
 		},
+		"type": "Object",
 		"data": {
 			"request": {
-				"url": "/odata/v2/EmpTimeAccountBalance?$filter=userId%20eq%20%27{{parameters.userId}}%27%20and%20timeAccountType%20eq%20%27{{parameters.timeAccountType}}%27",
+				"url": "https://apisalesdemo4.successfactors.com/odata/v2/EmpTimeAccountBalance?$filter=userId%20eq%20%27{{parameters.userId}}%27%20and%20timeAccountType%20eq%20%27{{parameters.timeAccountType}}%27",
 				"parameters": {
 					"$format": "json"
-				}
-			}
+				},
+				"withCredentials": true
+			},
+			"path": "/d/results/0"
 		},		
 		"header": {
-			"data": {
-				"path": "/d/results/0"
-			},
 			"icon": {
 				"src": "sap-icon://calendar"
 			},
 			"title": "Time Off",
-			"subTitle": "Current Balance: {balance} {timeUnit}",
-			"actions": [
+            "subTitle": "Current Balance: {/d/results/0/balance} {/d/results/0/timeUnit}",
+            "actions": [
 				{
 					"type": "Navigation",
 					"parameters": {
-						"url": "{{parameters.successfactors}}/xi/ui/ect/pages/absence/timeOff.xhtml"
+						"url": "https://salesdemo4.successfactors.com/xi/ui/ect/pages/absence/timeOff.xhtml"
 					}
 				}
 			]
@@ -55,10 +81,11 @@
 		"content": {
 			"data": {
 				"request": {
-					"url": "/odata/v2/EmployeeTime?$filter=userId%20eq%20%27{{parameters.userId}}%27%20and%20approvalStatus%20eq%20%27APPROVED%27%20and%20endDate%20gt%20%27{{parameters.today}}%27",
+					"url": "https://apisalesdemo4.successfactors.com/odata/v2/EmployeeTime?$filter=userId%20eq%20%27{{parameters.userId}}%27%20and%20approvalStatus%20eq%20%27APPROVED%27%20and%20timeType%20eq%20%27{{parameters.absenceType}}%27&orderBy=startDate,externalCode",
 					"parameters": {
 						"$format": "json"
-					}
+					},
+                    "withCredentials": true
 				},
 				"path": "/d/results/0"
 			},
@@ -72,10 +99,16 @@
 						]
 					},
 					{
+						"title": "",
+						"items": [
+
+						]
+					},					
+					{
 						"items": [
 							{
 								"value": "Request Leave",
-								"url": "{{parameters.successfactors}}/xi/ui/ect/pages/absence/timeOff.xhtml",
+								"url": "https://salesdemo4.successfactors.com/xi/ui/ect/pages/absence/timeOff.xhtml",
 								"type": "link"
 							}
 						]
