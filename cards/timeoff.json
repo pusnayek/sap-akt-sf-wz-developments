@@ -3,10 +3,10 @@
 	"sap.app": {
 		"id" : "swz.sfsf.leaveParental",
 		"type": "card",
-		"title": "Time Off",
+		"title": "Vacation",
 		"subTtitle": "User Time Off",
 		"applicationVersion": {
-			"version": "5.0.0"
+			"version": "6.0.0"
 		},
 		"shortTitle": "Time Off",
 		"description": "Time Off from Success Factors",
@@ -67,7 +67,7 @@
 			"icon": {
 				"src": "sap-icon://calendar"
 			},
-			"title": "Time Off",
+			"title": "Vacation",
             "subTitle": "Current Balance: {/d/results/0/balance} {/d/results/0/timeUnit}",
             "actions": [
 				{

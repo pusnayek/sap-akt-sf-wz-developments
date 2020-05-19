@@ -6,7 +6,7 @@
 		"title": "Org Chart",
 		"subTtitle": "Company Org Chart",
 		"applicationVersion": {
-			"version": "14.0.0"
+			"version": "15.0.0"
 		},
 		"shortTitle": "Org Chart",
 		"description": "Get Orgchart from Success Factors",
@@ -50,7 +50,26 @@
 			"icon": {
 				"src": "sap-icon://org-chart"
 			},
+			"data": {
+				"request": {
+					"url": "https://apisalesdemo4.successfactors.com/odata/v2/User/$count?$filter=manager/userId%20eq%20%27{{parameters.userId}}%27&$expand=manager",
+					"parameters": {
+						"$format": "json"
+					}
+				}
+			},
 			"title": "Org Chart",
+			"status": { 
+				"text": {
+					"format" : {
+						"translationKey": "i18n>CARD.COUNT_X_OF_Y",
+						"parts": [
+							"/",
+							"{{parameters.visibleItems}}"
+						]
+					}			
+				}  
+			},
 			"actions": [
 				{
 					"type": "Navigation",
